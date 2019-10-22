@@ -22,72 +22,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * Convenience function to show Toast to the User
-     * @param text The Text to be displayed in the Toast
-     */
-    private void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Function to make the dialog at the bottom look like a Add To-Do dialog
-     */
-    private void makeAddTodoDialog() {
-        // Hide Soft Input (Keyboard)
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(listView.getWindowToken(), 0);
-
-        // Set the UI accordingly
-        todoButton.setText("Add ToDo");
-        todoInput.setText("");
-        todoInput.setHint("Anything you wanna do?");
-        // On Clicking the button, Whatever is in the EditText should be added in the DB
-        todoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Make a To-Do Object. ID is given by DB, so I set it to -1
-                Todo todo = new Todo(-1, todoInput.getText().toString());
-                // Get DatabaseHelper instance
-                DatabaseHelper dbHelper = DatabaseHelper.getInstance(MainActivity.this);
-                // Add To-Do to DB and get status via return type
-                boolean isTodoAdded = dbHelper.insertTodo(todo);
-                // If successful, show the toast
-                if (isTodoAdded)
-                    showToast("ToDo added successfully");
-                // Reset The Data, since data in DB is changed
-                arrayAdapter.clear();
-                arrayAdapter.addAll(dbHelper.getTodos());
-                // Reset the UI
-                makeAddTodoDialog();
-            }
-        });
-    }
-
-    /**
-     * Function to make the UI look like a To-Do is being updated
-     * @param todo The TODO which is to be updated
-     */
-    private void makeUpdateTodoDialog(final Todo todo) {
-        todoInput.setText(todo.getContent());
-        todoButton.setText("Update ToDo");
-        // On clicking the button, The To-Do should be updated
-        todoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Same comments as Add (Except that ID remains the same (not -1), it's from the DB)
-                Todo updatedTodo = new Todo(todo.getId(), todoInput.getText().toString());
-                DatabaseHelper dbHelper = DatabaseHelper.getInstance(MainActivity.this);
-                boolean isTodoUpdated = dbHelper.editTodo(updatedTodo);
-                if (isTodoUpdated)
-                    showToast("ToDo updated successfully");
-                arrayAdapter.clear();
-                arrayAdapter.addAll(dbHelper.getTodos());
-                makeAddTodoDialog();
-            }
-        });
-    }
-
     Button todoButton;
     EditText todoInput;
     List<Todo> todos;
@@ -162,4 +96,72 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * Convenience function to show Toast to the User
+     * @param text The Text to be displayed in the Toast
+     */
+    private void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Function to make the dialog at the bottom look like a Add To-Do dialog
+     */
+    private void makeAddTodoDialog() {
+        // Hide Soft Input (Keyboard)
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(listView.getWindowToken(), 0);
+
+        // Set the UI accordingly
+        todoButton.setText("Add ToDo");
+        todoInput.setText("");
+        todoInput.setHint("Anything you wanna do?");
+        // On Clicking the button, Whatever is in the EditText should be added in the DB
+        todoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Make a To-Do Object. ID is given by DB, so I set it to -1
+                Todo todo = new Todo(-1, todoInput.getText().toString());
+                // Get DatabaseHelper instance
+                DatabaseHelper dbHelper = DatabaseHelper.getInstance(MainActivity.this);
+                // Add To-Do to DB and get status via return type
+                boolean isTodoAdded = dbHelper.insertTodo(todo);
+                // If successful, show the toast
+                if (isTodoAdded)
+                    showToast("ToDo added successfully");
+                // Reset The Data, since data in DB is changed
+                arrayAdapter.clear();
+                arrayAdapter.addAll(dbHelper.getTodos());
+                // Reset the UI
+                makeAddTodoDialog();
+            }
+        });
+    }
+
+    /**
+     * Function to make the UI look like a To-Do is being updated
+     * @param todo The TODO which is to be updated
+     */
+    private void makeUpdateTodoDialog(final Todo todo) {
+        todoInput.setText(todo.getContent());
+        todoButton.setText("Update ToDo");
+        // On clicking the button, The To-Do should be updated
+        todoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Same comments as Add (Except that ID remains the same (not -1), it's from the DB)
+                Todo updatedTodo = new Todo(todo.getId(), todoInput.getText().toString());
+                DatabaseHelper dbHelper = DatabaseHelper.getInstance(MainActivity.this);
+                boolean isTodoUpdated = dbHelper.editTodo(updatedTodo);
+                if (isTodoUpdated)
+                    showToast("ToDo updated successfully");
+                arrayAdapter.clear();
+                arrayAdapter.addAll(dbHelper.getTodos());
+                makeAddTodoDialog();
+            }
+        });
+    }
+
 }
