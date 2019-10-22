@@ -122,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
         todoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (todoInput.getText().toString().isEmpty()) {
+                    showToast("Enter a non-empty ToDo please");
+                    return;
+                }
                 // Make a To-Do Object. ID is given by DB, so I set it to -1
                 Todo todo = new Todo(-1, todoInput.getText().toString());
                 // Get DatabaseHelper instance
@@ -151,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
         todoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (todoInput.getText().toString().isEmpty()) {
+                    showToast("Enter a non-empty ToDo please");
+                    return;
+                }
                 // Same comments as Add (Except that ID remains the same (not -1), it's from the DB)
                 Todo updatedTodo = new Todo(todo.getId(), todoInput.getText().toString());
                 DatabaseHelper dbHelper = DatabaseHelper.getInstance(MainActivity.this);
