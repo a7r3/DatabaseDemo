@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/add_todo"
+        android:layout_alignParentTop="true"
+        tools:listitem="@layout/todo_layout"/>
+
+    <LinearLayout
+        android:id="@+id/add_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/todo_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Anything you wanna do?"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/todo_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add TODO"
+            android:layout_marginLeft="16dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
